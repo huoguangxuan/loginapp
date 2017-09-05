@@ -1,0 +1,21 @@
+<!-- {{#if errors}}
+	{{#each errors}}
+		<div class='notice error'><i class="icon-remove-sign icon-large"></i>{{msg}}
+		<a href="#close" class="icon-remove"></a>
+		</div>
+	{{/each}}
+{{/if}} -->
+<form class="form-signin" action="/users/register" method="post">
+    <h2 class="form-signin-heading">Please sign up</h2>
+     <label for="inputName" class="sr-only">Name</label>
+    <input type="text" autocomplete="off" id="inputName" class="form-control" placeholder="Name" required autofocus name='name'>
+     <label for="inputUserName" class="sr-only">Name</label>
+    <input type="text" autocomplete="off" id="inputUserName" class="form-control" placeholder="User Name" required autofocus  name='username'>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" autocomplete="off" id="inputEmail" class="form-control" placeholder="Email address" required autofocus  name='email'>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" autocomplete="off" id="inputPassword" class="form-control" placeholder="Password" required  name='password'>
+    <label for="confirmPassword" class="sr-only">Password2</label>
+    <input type="password" autocomplete="off" id="confirmPassword" class="form-control confirmPassword" placeholder="confirm Password" required  name='password2'>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+</form>
