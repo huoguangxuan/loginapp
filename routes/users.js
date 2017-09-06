@@ -6,11 +6,12 @@ var bcrypt= require('bcryptjs');
 //Register
 
 router.get('/register',function(req,res){
-	res.render('register');
+	req.flash('success','you are now registered and can login');
+	res.render('register',{ msg: req.flash('success') });
 })
 
 router.get('/login',function(req,res){
-	res.render('login');
+	res.render('login',{ msg: req.flash('success') });
 })
 //Register user
 router.post('/register',function(req,res){
@@ -27,7 +28,6 @@ router.post('/register',function(req,res){
 	req.checkBody('email','email is not valid').isEmail();
 	req.checkBody('password','password is required').notEmpty();
 	req.checkBody('password2','passwords do not match').equals(req.body.password);
-	console.log(1);
 	var errors = req.validationErrors();
 	if(errors){
 		console.log(errors);
@@ -35,14 +35,12 @@ router.post('/register',function(req,res){
 			errors:errors
 		})
 	}else{
-		console.log(3)
 		var newUser =new User({
 			name:name,
 			email:email,
 			username:username,
 			password:password
 		});
-
 		bcrypt.genSalt(10,function(err,salt){
 			bcrypt.hash(newUser.password,salt,function(err,hash){
 				if(err){
@@ -54,7 +52,7 @@ router.post('/register',function(req,res){
 						console.log(err)
 						return;
 					}else{
-						req.flash('sucess','you are now registered and can login');
+						req.flash('success','you are now registered and can login');
 						res.redirect('login');
 					}
 				})

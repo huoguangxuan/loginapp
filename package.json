@@ -23,6 +23,7 @@
     "mongoose": "^4.11.10",
     "passport": "*",
     "passport-http": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "pug": "^2.0.0-rc.3"
   }
 }
