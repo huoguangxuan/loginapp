@@ -18,9 +18,10 @@ mongoose.connect(dbUrl,function(err,res){
 	}
 })
 
-var routes = require('./routes/index');
+// var routes = require('./routes/index');
 var users = require('./routes/users');
-var articles = require('./routes/articles');
+// var articles = require('./routes/articles');
+var routes = require('./routes/articles');
 //init App
 var app = express();
 
@@ -41,9 +42,14 @@ app.use(session({
 	saveUninitialized:true,
 	resave:true
 }));
-// Passport init
-app.use(passport.initialize());
-app.use(passport.session());
+
+//Connect Flash
+app.use(flash());
+// express message middleware Global Vars
+app.use(function(req,res,next){
+	res.locals.messages= require('express-messages')(req,res);
+	next();
+});
 // Express Validator
 
 app.use(expressValidator({
@@ -62,22 +68,19 @@ app.use(expressValidator({
 	}
 }));
 
-//Connect Flash
-app.use(flash());
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
 
-//Global Vars
-app.use(function(req,res,next){
-	res.locals.success_msg= req.flash('success_msg');
-	res.locals.error_msg=req.flash('error_msg');
-	res.locals.error=req.flash('error');
-	next();
-});
+
+
+
 // set routes
 app.use('/',routes);
 app.use('/users',users);
-app.use('/articles',articles);
+// app.use('/articles',articles);
 //Set Port
-app.set('port',(process.env.PORT || 3001));
+app.set('port',(process.env.PORT || 3000));
 
 app.listen(app.get('port'),function(){
 	console.log('Server started on port'+app.get('port'));

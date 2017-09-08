@@ -4,7 +4,9 @@ html
 		title LoginApp
 		link( rel="stylesheet" href="/css/bootstrap.css")
 		link( rel="stylesheet" href="/css/style.css")
+		script(src='/js/jquery.min.js')
 		script(src='/js/bootstrap.min.js')
+		script(src='/js/main.js')
 	body
 		div(class="container")
 			div(class="header clearfix")
@@ -13,7 +15,7 @@ html
 						li( role="presentation")
 							a( href="/") Articles
 						li( role="presentation")
-							a( href="/articles/add") Add Article
+							a( href="/add") Add Article
 						li( role="presentation")
 							a( href="/users/login") Login
 						li( role="presentation")
@@ -23,6 +25,10 @@ html
 				h3( class="text-muted") LoginApp
 			div( class="row marketing")
 				div( class="col-lg-12")
+					!= messages('message',locals)
+					if errors
+						each error, i in errors
+							div(class='alert alert-danger') #{error.msg}
 					block content
 			footer( class="footer")
 				p &copy; 2017 LoginApp, Inc.

@@ -28,7 +28,7 @@ router.get('/article/:id',function(req,res){
 })
 
 // edit article router
-router.get('/article/edit/:id',function(req,res){
+router.get('/edit/:id',function(req,res){
 	Article.findById(req.params.id,function(err,article){
 		res.render('edit_article',{
 			title:'Edit Article',
