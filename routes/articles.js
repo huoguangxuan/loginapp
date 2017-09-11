@@ -102,17 +102,14 @@ router.post('/edit/:id',function(req,res){
 
 //delete submit POST router
 
-router.delete('/:id',function(req,res){
+router.delete('/articles/:id',function(req,res){
 	let query={_id:req.params.id};
 	Article.remove(query,function(err){
 		if(err){
 			console.log(err);
 			return;
 		}else{
-			req.flash('success','删除成功');
-			console.log('nice');
-			res.render('/');
-			console.log('nice1');
+			res.send('success');
 		}
 	})
 })

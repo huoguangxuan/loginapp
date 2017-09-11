@@ -2,16 +2,27 @@ var express = require('express');
 var router =express.Router();
 var User =require('../models/user');
 var bcrypt= require('bcryptjs');
+const passport =require('passport');
 
 //Register
 
 router.get('/register',function(req,res){
-	req.flash('success','you are now registered and can login');
-	res.render('register',{ msg: req.flash('success') });
+	// req.flash('success','you are now registered and can login');
+	res.render('register');
 })
 
+//login form
 router.get('/login',function(req,res){
-	res.render('login',{ msg: req.flash('success') });
+	res.render('login');
+})
+
+//login process
+router.post('/login',function(req,res,next){
+	passport.authenticate('local',{
+		successRedirect:'/',
+		failureRedirect:'/users/login',
+		failureFlash:true
+	})(req,res,next);
 })
 //Register user
 router.post('/register',function(req,res){

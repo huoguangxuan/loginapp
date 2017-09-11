@@ -4,12 +4,12 @@ $(document).ready(function(){
 		const id=$target.attr('data-id');
 		$.ajax({
 			type:'DELETE',
-			url:'/'+id,
+			url:'/articles/'+id,
 			success:function(response){
-				alert('deleting article');
 				window.location.href='/';
 			},
 			error:function(err){
+				alert(111)
 				console.log(err);
 			}
 		})

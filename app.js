@@ -6,15 +6,14 @@ var expressValidator= require('express-validator');
 var flash= require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var mongo =require('mongodb');
 var mongoose = require('mongoose');
-var dbUrl= 'mongodb://localhost/loginapp'
-mongoose.connect(dbUrl,function(err,res){
+var config=require('./config/database')
+mongoose.connect(config.dbUrl,function(err,res){
 	if(err){
 		console.log('DB CONNECTION FAILED:'+err)
 	}else{
-		console.log('DB CONNECTION SUCCESS:'+dbUrl)
+		console.log('DB CONNECTION SUCCESS:'+config.dbUrl)
 	}
 })
 
@@ -68,12 +67,12 @@ app.use(expressValidator({
 	}
 }));
 
+//pasport  config 
+require('./config/passport')(passport);
+
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-
 
 // set routes
 app.use('/',routes);
