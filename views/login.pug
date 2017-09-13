@@ -5,16 +5,16 @@ block content
         label.sr-only(for='inputUsername') Email address
         input#inputUsername.form-control(
             type='text', 
-            autocomplete='off', 
+            name='username',
             placeholder='User Name', 
             required='', 
             autofocus='')
         label.sr-only(for='inputPassword') Password
         input#inputPassword.form-control(
-        type='password', placeholder='Password', required='')
+        type='password', placeholder='Password', required='',name='password')
         .checkbox
-        label
-          input(type='checkbox', value='remember-me')
-          |  Remember me
+        //- label
+        //-   input(type='checkbox', value='remember-me')
+        //-   |  Remember me
         button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
 

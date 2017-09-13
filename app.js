@@ -74,11 +74,18 @@ require('./config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('*', function(req, res, next){
+  res.locals.user = req.user || null;
+  next();
+});
+
 // set routes
 app.use('/',routes);
 app.use('/users',users);
-// app.use('/articles',articles);
+//App.use('/articles',articles);
+
 //Set Port
+
 app.set('port',(process.env.PORT || 3000));
 
 app.listen(app.get('port'),function(){

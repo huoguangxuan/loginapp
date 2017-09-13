@@ -128,3 +128,9 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.alert-error {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}

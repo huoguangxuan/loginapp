@@ -9,7 +9,6 @@ $(document).ready(function(){
 				window.location.href='/';
 			},
 			error:function(err){
-				alert(111)
 				console.log(err);
 			}
 		})

@@ -1,13 +1,13 @@
 var express = require('express');
 var router =express.Router();
-var Article =require('../models/article')
-
+var Article =require('../models/article');
+var User =require('../models/user');
 //get homepage
 
 router.get('/',function(req,res){
 	Article.find({},function(err,articles){
 		if(err){
-
+			console.log(err)
 		}
 		res.render('index',
 			{
@@ -16,15 +16,15 @@ router.get('/',function(req,res){
 			}
 		);
 	})
-	
 })
 // get single article router
 router.get('/article/:id',function(req,res){
 	Article.findById(req.params.id,function(err,article){
-		res.render('article',{
+		User.findById(article.autor,function(err,user){
+			res.render('article',{
 			article:article
+			})
 		})
-		return;
 	})
 })
 
@@ -42,6 +42,15 @@ router.get('/add',function(req,res){
 	res.render('add_article',{title:'Add Article'});
 })
 
+// Access Control
+function ensureAuthenticated(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    req.flash('danger', 'Please login');
+    res.redirect('/users/login');
+  }
+}
 
 //add submit POST router
 
@@ -49,7 +58,7 @@ router.post('/add',function(req,res){
 
 	//验证
 	req.checkBody('title','title is required').notEmpty();
-	req.checkBody('author','author is required').notEmpty();
+	// req.checkBody('author','author is required').notEmpty();
 	req.checkBody('body','body is required').notEmpty();
 
 	//get errors
@@ -63,7 +72,7 @@ router.post('/add',function(req,res){
 	}else{
 		let article =new Article();
 		article.title=req.body.title;
-		article.author=req.body.author;
+		article.author=req.user._id;
 		article.body=req.body.body;
 		article.save(function(err){
 			if(err){
@@ -78,7 +87,6 @@ router.post('/add',function(req,res){
 	}
 	
 })
-
 
 //update submit POST router
 
@@ -98,7 +106,6 @@ router.post('/edit/:id',function(req,res){
 		}
 	})
 })
-
 
 //delete submit POST router
 

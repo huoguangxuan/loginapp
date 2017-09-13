@@ -16,6 +16,13 @@ router.get('/login',function(req,res){
 	res.render('login');
 })
 
+//logout
+
+router.get('/logout',function(req,res){
+	req.logout();
+	req.flash('success', 'You are logged out');
+	res.redirect('/users/login');
+})
 //login process
 router.post('/login',function(req,res,next){
 	passport.authenticate('local',{
@@ -63,8 +70,20 @@ router.post('/register',function(req,res){
 						console.log(err)
 						return;
 					}else{
-						req.flash('success','you are now registered and can login');
-						res.redirect('login');
+						let query = {
+							username:req.body.username,
+							email:req.body.email
+						}
+						User.findOne(query,function(err){
+							if(err){
+								req.flash('success','you are now registered and can login');
+								res.redirect('login');
+							}else{
+								req.flash('error','用户名或email已存在');
+								res.redirect('register');
+							}
+						})
+						
 					}
 				})
 			})
