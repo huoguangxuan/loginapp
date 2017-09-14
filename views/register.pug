@@ -3,9 +3,7 @@ block content
     form.form-signin(action='/users/register', method='post')
         h2.form-signin-heading Please sign up
         label.sr-only(for='inputName') Name
-        input#inputName.form-control(type='text', autocomplete='off', placeholder='Name', required='', autofocus='', name='name')
-        label.sr-only(for='inputUserName') Name
-        input#inputUserName.form-control(type='text', autocomplete='off', placeholder='User Name', required='', autofocus='', name='username')
+        input#inputName.form-control(type='text', autocomplete='off', placeholder='Username', required='', autofocus='', name='username')
         label.sr-only(for='inputEmail') Email address
         input#inputEmail.form-control(type='email', autocomplete='off', placeholder='Email address', required='', autofocus='', name='email')
         label.sr-only(for='inputPassword') Password

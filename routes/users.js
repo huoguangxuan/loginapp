@@ -23,6 +23,7 @@ router.get('/logout',function(req,res){
 	req.flash('success', 'You are logged out');
 	res.redirect('/users/login');
 })
+
 //login process
 router.post('/login',function(req,res,next){
 	passport.authenticate('local',{
@@ -33,14 +34,12 @@ router.post('/login',function(req,res,next){
 })
 //Register user
 router.post('/register',function(req,res){
-	var name=req.body.name;
 	var email=req.body.email;
 	var username = req.body.username;
 	var password =req.body.password;
 	var password2= req.body.password2;
 
 	//Validator
-	req.checkBody('name','Name is required').notEmpty();
 	req.checkBody('username','Username is required').notEmpty();
 	req.checkBody('email','email is required').notEmpty();
 	req.checkBody('email','email is not valid').isEmail();
@@ -54,7 +53,6 @@ router.post('/register',function(req,res){
 		})
 	}else{
 		var newUser =new User({
-			name:name,
 			email:email,
 			username:username,
 			password:password
@@ -65,27 +63,28 @@ router.post('/register',function(req,res){
 					console.log(err);
 				}
 				newUser.password =hash;
-				newUser.save(function(err){
-					if(err){
-						console.log(err)
-						return;
-					}else{
-						let query = {
+				let query = {
 							username:req.body.username,
 							email:req.body.email
 						}
-						User.findOne(query,function(err){
+				User.findOne(query,function(err,result){
+					console.log(result)
+					if(err) throw err;
+					if(!result){
+						newUser.save(function(err){
 							if(err){
-								req.flash('success','you are now registered and can login');
-								res.redirect('login');
+								console.log(err)
+								return;
 							}else{
-								req.flash('error','用户名或email已存在');
-								res.redirect('register');
+								req.flash('success','恭喜您注册成功！请登录！');
+								res.redirect('login')			
 							}
-						})
-						
+						})		
+					}else{
+						req.flash('error','用户名或email已存在');
+						res.redirect('register');
 					}
-				})
+				});
 			})
 		})
 	}
