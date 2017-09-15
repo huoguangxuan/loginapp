@@ -138,10 +138,9 @@ function ensureAuthenticated(req, res, next){
 // 评论
 router.post('/article/:id',function(req,res){
 	let comment = new Comment();
-		comment.aid = req.body.id
+		comment.aid = req.params.id;
 		comment.name=req.user._id;
 		comment.content=req.body.content;
-	console.log(req.body.id);
 	//validator
 	req.checkBody('content','content is required').notEmpty();
 	let errors = req.validationErrors();
@@ -156,13 +155,13 @@ router.post('/article/:id',function(req,res){
 		if(err){
 			console.log(err)
 		}else{
-			let query={aid:req.body.id}
-			comment.find(query,function(err,comment){
+			let query={aid:req.params.id}
+			Comment.find(query,function(err,results){
 				if(err){
 					console.log(err);
 					return
 				}else{
-					res.render('')
+					console.log(results)
 				}
 			})
 		}
