@@ -2,6 +2,8 @@ var express = require('express');
 var router =express.Router();
 var Article =require('../models/article');
 var User =require('../models/user');
+var Comment =require('../models/comment');
+
 //get homepage
 
 router.get('/',function(req,res){
@@ -20,9 +22,10 @@ router.get('/',function(req,res){
 // get single article router
 router.get('/article/:id',function(req,res){
 	Article.findById(req.params.id,function(err,article){
-		User.findById(article.autor,function(err,user){
+		User.findById(article.author,function(err,user){
 			res.render('article',{
-			article:article
+			article:article,
+			currentauthor:user.username
 			})
 		})
 	})
@@ -132,4 +135,39 @@ function ensureAuthenticated(req, res, next){
   }
 }
 
+// 评论
+router.post('/article/:id',function(req,res){
+	let comment = new Comment();
+		comment.aid = req.body.id
+		comment.name=req.user._id;
+		comment.content=req.body.content;
+	console.log(req.body.id);
+	//validator
+	req.checkBody('content','content is required').notEmpty();
+	let errors = req.validationErrors();
+
+	if(errors){
+		res.render('article/:id',{
+			title:'comment',
+			errors:errors
+		})
+	}else{
+		comment.save(function(err){
+		if(err){
+			console.log(err)
+		}else{
+			let query={aid:req.body.id}
+			comment.find(query,function(err,comment){
+				if(err){
+					console.log(err);
+					return
+				}else{
+					res.render('')
+				}
+			})
+		}
+	})
+	}
+	
+})
 module.exports = router;
